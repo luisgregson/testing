@@ -1,24 +1,27 @@
-import React, { useState } from "react";
-import { render } from "react-dom";
+import React from 'react';
+import {render} from 'react-dom';
 
 // Main App component
 // gets details from Github and displays them on the page
-
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      fullName: ""
+      fullName: '',
+      bio: '',
+      avatarUrl: '',
     };
   }
 
   async componentDidMount() {
-    const response = await fetch("https://api.github.com/userz/luisgregson");
-    const { fullName } = await response.json();
+    const response = await fetch('https://api.github.com/userz/luisgregson');
+    const {fullName, bio, avatar_url: avatarUrl} = await response.json();
 
     this.setState({
-      fullName
+      fullName,
+      bio,
+      avatarUrl,
     });
   }
 
@@ -26,10 +29,18 @@ class App extends React.Component {
     return (
       <div>
         <h1>{this.state.fullName}' GitHub page</h1>
-        <p>Name: {this.state.fullName}</p>
+        <p>
+          <span class="bold">Name:</span> {this.state.fullName}
+        </p>
+        <p>
+          <span class="bold">Biography:</span> {this.state.bio}
+        </p>
+        <p>
+          <span class="bold">Image:</span> {this.state.avatarUrl}
+        </p>
       </div>
     );
   }
 }
 
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'));
